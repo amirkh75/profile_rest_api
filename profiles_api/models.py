@@ -20,7 +20,7 @@ class UserProfileManager(BaseUserManager):
 
         return user
 
-    def creat_superuser(self, email, name, password):
+    def create_superuser(self, email, name, password):
         """Creat save a new superuser with given details"""
         user = self.creat_user(email, name, password)
 
@@ -34,7 +34,7 @@ class UserProfileManager(BaseUserManager):
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system"""
     email = models.EmailField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length  =255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -51,6 +51,6 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         """Retrive full name of user"""
         return self.name
 
-        def __str__(self): #my=>this is recommended for all django models.
-            """Return string representation of our user"""
-            return self.email
+    def __str__(self): #my=>this is recommended for all django models.
+        """Return string representation of our user"""
+        return self.email
