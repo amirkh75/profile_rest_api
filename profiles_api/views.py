@@ -2,8 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
+
 
 from profiles_api import serializers
+from profiles_api import models
+from profiles_api import permissions
+
 
 class HelloApiView(APIView):
     """Test API View"""
@@ -93,3 +99,13 @@ class HelloViewset(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         """Handle removing an object"""
         return Response({'http_method': 'DELETE'})
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handle creating and updating profiles"""
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
+    authentication_classes = (TokenAuthentication,) #my=>(A,) cuse to be tupel instead of a singel item.
+    permission_classes = (permissions.UpdateOwnProfi,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'email',)
